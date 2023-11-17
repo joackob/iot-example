@@ -32,6 +32,7 @@ const Login = () => {
         />
         <Button
           variant="contained"
+          href="/ingresar-codigo"
           style={{
             marginTop: "2rem",
           }}
