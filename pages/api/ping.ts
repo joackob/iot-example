@@ -7,12 +7,12 @@ export default async function handler(
     res: NextApiResponse
 ) {
     // const client = mqtt.connect("http://192.168.0.184");
-    const client = mqtt.connect("mqtt://192.168.0.184");
+    const client = mqtt.connect("mqtt://10.9.121.88");
 
     client.on("connect", () => {
-        client.subscribe("presence", (err) => {
+        client.subscribe("Carlosyliz", (err) => {
             if (!err) {
-                client.publish("presence", "Hello mqtt");
+                client.publish("Carlosyliz", "on");
             }
         });
     });
