@@ -13,7 +13,7 @@ export default async function handler(
         console.log("se conecto");
         client.subscribe("Carlosyliz", (err) => {
             if (!err) {
-                client.publish("Carlosyliz", "on");
+                client.publish("Carlosyliz", "off");
             }
         });
     });
