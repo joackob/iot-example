@@ -4,7 +4,14 @@
   "description": "etec-secure-lockers",
   "main": "index.js",
   "scripts": {
-    "install": "node ./utils/install-deps.mjs"
+    "install": "node ./utils/install.mjs",
+    "build": "node ./utils/build.mjs",
+    "build:app": "cd app && npm run build",
+    "build:esp32": "cd esp32 && arduino-cli compile",
+    "deploy": "node ./utils/deploy.mjs",
+    "deploy:app": "cd app && npm run start",
+    "deploy:esp32": "cd esp32 && arduino-cli compile -u",
+    "dev": "cd app && npm run dev"
   },
   "author": "",
   "license": "ISC"
