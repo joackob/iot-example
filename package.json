@@ -11,7 +11,8 @@
     "deploy": "node ./utils/deploy.mjs",
     "deploy:app": "cd app && npm run start",
     "deploy:esp32": "cd esp32 && arduino-cli compile -u",
-    "dev": "cd app && npm run dev"
+    "dev": "cd app && npm run dev",
+    "config": "node ./utils/config.mjs"
   },
   "author": "",
   "license": "ISC"
