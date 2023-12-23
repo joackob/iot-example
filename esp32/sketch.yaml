@@ -1,2 +1,2 @@
-default_fqbn: default_fqbn
-default_port: default_port
+default_fqbn: arduino:avr:uno
+default_port: COM3

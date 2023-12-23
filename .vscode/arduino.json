@@ -1,0 +1,6 @@
+{
+    "port": "COM3",
+    "board": "arduino:avr:uno",
+    "programmer": "avrisp",
+    "sketch": "esp32\\esp32.ino"
+}
