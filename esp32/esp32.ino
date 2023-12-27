@@ -39,7 +39,7 @@ void setup_wifi()
   // empezamos conectandolo a una red wifi
   Serial.println();
   Serial.print("Connecting to "); // se esta conectando a cliente y el servidor
-  Serial.println(ssid);
+  Serial.println(WIFI_SSID);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
 
   while (WiFi.status() != WL_CONNECTED)
@@ -64,7 +64,7 @@ void callback(char *topic, byte *message, unsigned int length)
   Serial.print("Message arrived on topic: ");
   Serial.print(topic);
   Serial.print(". Message: ");
-  String Led(message);
+  String Led;
   for (int i = 0; i < length; i++)
   {
     Serial.print((char)message[i]);
