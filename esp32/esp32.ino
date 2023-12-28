@@ -1,4 +1,4 @@
-/*********
+/********
 Rui Santos
 Complete project details at https://randomnerdtutorials.com
 *********/
@@ -79,7 +79,7 @@ void callback(char *topic, byte *message, unsigned int length)
 
   // Changes the output state according to the message
   // Cambia el estado de salida según el mensaje.
-  if (String(topic) == MQTT_TOPIC)
+  if (String(topic) == String(MQTT_TOPIC))
   {
     Serial.print("Cambiar la salida a");
     if (Led == MQTT_MSG_TO_OPEN)
@@ -115,7 +115,7 @@ void reconnect()
     {
       Serial.println("connected");
       // Subscribe
-      mqttClient.subscribe("#");
+      mqttClient.subscribe(MQTT_TOPIC);
     }
     else
     {
@@ -138,3 +138,4 @@ void loop()
   }
   mqttClient.loop();
 }
+
