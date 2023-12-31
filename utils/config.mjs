@@ -1,7 +1,7 @@
 import fs from "fs";
 
 const configMQTT = {
-  "mqtt-host": "broker.emqx.io",
+  "mqtt-host": "broker.hivemq.com",
   "mqtt-topic": "esp32/locker/joackob",
   "mqtt-msg-to-close": "close",
   "mqtt-msg-to-open": "open",

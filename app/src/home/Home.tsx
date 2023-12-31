@@ -14,11 +14,8 @@ const Home = () => {
     checked: boolean,
   ) => {
     try {
-      if (checked) {
-        await fetch(`${api}/open`);
-      } else {
-        await fetch(`${api}/close`);
-      }
+      const controller = checked ? "open" : "close";
+      await fetch(`${api}/${controller}`);
     } catch (error) {
       console.log(error);
     }

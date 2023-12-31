@@ -15,7 +15,7 @@ Complete project details at https://randomnerdtutorials.com
 #include "wifi_config.h"
 #include "mqtt_config.h"
 
-// MQTT channel
+// MQTT client
 MQTT mqtt;
 
 // led
@@ -39,7 +39,7 @@ void onWifiConnected()
 
 void onMQTTDisconnected()
 {
-  indicator.blink();
+  indicator.on();
 }
 
 void onMQTTConnected()
