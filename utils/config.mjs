@@ -1,8 +1,8 @@
 import fs from "fs";
 
 const configMQTT = {
-  "mqtt-host": "broker.hivemq.com",
-  "mqtt-topic": "esp32/locker",
+  "mqtt-host": "broker.emqx.io",
+  "mqtt-topic": "esp32/locker/joackob",
   "mqtt-msg-to-close": "close",
   "mqtt-msg-to-open": "open",
 };
@@ -25,7 +25,7 @@ const configESP32 = () => {
 const configAppToDev = () => {
   const mqttConfig = [
     'NODE_ENV="development"',
-    `MQTT_HOST="https://${configMQTT["mqtt-host"]}"`,
+    `MQTT_HOST="mqtt://${configMQTT["mqtt-host"]}"`,
     `MQTT_TOPIC="${configMQTT["mqtt-topic"]}"`,
     `MQTT_MSG_TO_CLOSE_LOCKER="${configMQTT["mqtt-msg-to-close"]}"`,
     `MQTT_MSG_TO_OPEN_LOCKER="${configMQTT["mqtt-msg-to-open"]}"`,
