@@ -1,14 +1,5 @@
-import { execSync } from "child_process";
-
-const exec = (command) => {
-  execSync(command, { stdio: "inherit" });
-};
-
-const print = (message) => {
-  console.info("----------------------------------------");
-  console.info(message);
-  console.info("----------------------------------------");
-};
+import { print } from "./print.mjs";
+import { exec } from "./exec.mjs";
 
 print("build app");
 exec("cd app && npm run build");
