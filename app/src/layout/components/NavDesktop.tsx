@@ -1,3 +1,4 @@
+import { Home } from "@mui/icons-material";
 import { Breadcrumbs, Container, Link, Stack, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
@@ -29,8 +30,11 @@ const NavDesktop = ({
     >
       <Breadcrumbs separator={<Separador simbolo=">" />}>
         <Stack alignItems="center" direction="row" spacing={1}>
+          <Home />
           <Link href="/" underline="none" color="inherit" fontWeight="bold">
-            <Typography variant="inherit">NextJS</Typography>
+            <Typography variant="inherit" fontWeight={"bold"}>
+              Home
+            </Typography>
           </Link>
         </Stack>
 

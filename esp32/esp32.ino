@@ -65,11 +65,11 @@ void onMessage(char *t, uint8_t *m, unsigned int l) {
 
   logger.log(String("Message received: ") + topic + ": " + message);
 
-  if (topic == String(MQTT_TOPIC)) {
-    if (message == String(MQTT_MSG_TO_OPEN_LOCKER)) {
-      lock.open();
-    } else if (message == String(MQTT_MSG_TO_CLOSE_LOCKER)) {
-      lock.close();
-    }
+  if (message == MQTT_MSG_TO_OPEN_LOCKER) {
+    lock.open();
+    logger.log("Locker opened");
+  } else if (message == MQTT_MSG_TO_CLOSE_LOCKER) {
+    lock.close();
+    logger.log("Locker closed");
   }
 }

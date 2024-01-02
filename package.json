@@ -11,7 +11,7 @@
     "deploy": "node ./utils/deploy.mjs",
     "deploy:app": "cd app && npm run start",
     "deploy:esp32": "cd esp32 && arduino-cli upload",
-    "dev": "cd app && npm run dev",
+    "dev:app": "cd app && npm run dev",
     "config": "node ./utils/config.mjs"
   },
   "author": "",

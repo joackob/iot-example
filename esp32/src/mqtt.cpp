@@ -6,7 +6,7 @@
 #define MQTT_CLIENT_ID "ESP32"
 
 MQTT::MQTT() {
-  this->channel.setClient(this->wifi);
+  this->socket.setClient(this->wifi);
   this->onWifiConnectingCallback = nullptr;
   this->onWifiConnectedCallback = nullptr;
   this->onMQTTConnectedCallback = nullptr;
@@ -14,15 +14,15 @@ MQTT::MQTT() {
   this->onMQTTConnectingCallback = nullptr;
 }
 
-MQTT::MQTT(const MQTT &other) : wifi(other.wifi), channel(other.channel) {}
+MQTT::MQTT(const MQTT &other) : wifi(other.wifi), socket(other.socket) {}
 
-MQTT::MQTT(MQTT &&other) : wifi(other.wifi), channel(other.channel) {}
+MQTT::MQTT(MQTT &&other) : wifi(other.wifi), socket(other.socket) {}
 
 MQTT::~MQTT(){};
 
 MQTT &MQTT::operator=(const MQTT &other) {
   this->wifi = other.wifi;
-  this->channel = other.channel;
+  this->socket = other.socket;
   return *this;
 };
 
@@ -62,19 +62,19 @@ MQTT &MQTT::build() {
     this->onWifiConnectingCallback(WIFI_SSID);
   }
   this->onWifiConnectedCallback(WiFi.localIP().toString().c_str());
-  this->channel.setServer(MQTT_HOST, MQTT_PORT);
-  this->channel.setCallback(this->onMessageCallback);
+  this->socket.setServer(MQTT_HOST, MQTT_PORT);
+  this->socket.setCallback(this->onMessageCallback);
   return *this;
 };
 
 void MQTT::loop() {
-  while (!this->channel.connected()) {
-    if (this->channel.connect(MQTT_CLIENT_ID)) {
-      this->channel.subscribe(MQTT_TOPIC);
+  while (!this->socket.connected()) {
+    if (this->socket.connect(MQTT_CLIENT_ID)) {
+      this->socket.subscribe(MQTT_TOPIC);
       this->onMQTTConnectedCallback(MQTT_HOST, MQTT_PORT);
     } else {
-      this->onMQTTDisconnectedCallback(this->channel.state());
+      this->onMQTTDisconnectedCallback(this->socket.state());
     }
   }
-  this->channel.loop();
+  this->socket.loop();
 };

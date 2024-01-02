@@ -7,5 +7,5 @@ export default async function handler(
 ) {
   const { controller } = req.query;
   lockSocket.sendOrder(controller as string);
-  res.status(200).json({ msg_send: controller });
+  res.status(200).json({});
 }

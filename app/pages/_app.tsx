@@ -17,7 +17,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         />
         <meta name="description" content="Description" />
         <meta name="keywords" content="Keywords" />
-        <title>Next.js PWA Example</title>
+        <title>PWA MQTT Example</title>
 
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#3f50b5" />

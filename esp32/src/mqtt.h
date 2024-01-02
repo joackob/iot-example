@@ -32,7 +32,7 @@ public:
 
 private:
   WiFiClient wifi;
-  PubSubClient channel;
+  PubSubClient socket;
   OnWifiConnectingCallback onWifiConnectingCallback;
   OnWifiConnectedCallback onWifiConnectedCallback;
   OnMQTTDisconnectedCallback onMQTTDisconnectedCallback;
