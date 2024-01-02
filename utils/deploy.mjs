@@ -10,7 +10,7 @@ const print = (message) => {
   console.info("----------------------------------------");
 };
 
-print("compile and upload code to esp32");
+print("upload code to esp32");
 exec("cd esp32 && arduino-cli upload");
 
 print("build app");

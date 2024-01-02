@@ -13,5 +13,5 @@ const print = (message) => {
 print("build app");
 exec("cd app && npm run build");
 
-print("compile and upload code to esp32");
+print("compile code to esp32");
 exec("cd esp32 && arduino-cli compile");

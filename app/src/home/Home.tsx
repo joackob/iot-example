@@ -8,7 +8,7 @@ import {
 import { ChangeEvent } from "react";
 
 const Home = () => {
-  const api = "http://192.168.0.29:3000/api/locker";
+  const api = "http://192.168.0.122:3000/api/locker";
   const handleSwitch = async (
     _: ChangeEvent<HTMLInputElement>,
     checked: boolean,

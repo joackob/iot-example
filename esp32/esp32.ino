@@ -1,80 +1,75 @@
-/********
-Rui Santos
-Complete project details at https://randomnerdtutorials.com
-*********/
+// settings
+#include "mqtt_config.h"
 
-// bibliotecas
-
-// Archivos de programa
-#include "./src/lock.h"
+// src
 #include "./src/indicator.h"
+#include "./src/lock.h"
 #include "./src/logger.h"
 #include "./src/mqtt.h"
 
-// Settings
-#include "wifi_config.h"
-#include "mqtt_config.h"
-
-// MQTT client
 MQTT mqtt;
-
-// led
 LedIndicator indicator;
-
-// cerradura;
 Lock lock;
-
-// logger
 Logger logger;
 
-void onWifiConnecting()
-{
-  indicator.blink();
-}
+void setup() {
+  logger.begin();
+  lock.begin();
+  indicator.begin();
 
-void onWifiConnected()
-{
-  indicator.off();
-}
-
-void onMQTTDisconnected()
-{
-  indicator.on();
-}
-
-void onMQTTConnected()
-{
-  indicator.off();
-}
-
-void onMessage(String topic, String message)
-{
-  logger.logTopicAndMessage(topic, message);
-  if (topic == MQTT_TOPIC)
-  {
-    if (message == MQTT_MSG_TO_OPEN_LOCKER)
-    {
-      lock.open();
-    }
-    else if (message == MQTT_MSG_TO_CLOSE_LOCKER)
-    {
-      lock.close();
-    }
-  }
-}
-
-void setup()
-{
-  logger.logSSIDWifiToConnect();
   mqtt.onWifiConnecting(onWifiConnecting)
       .onWifiConnected(onWifiConnected)
+      .onMQTTConnecting(onMQTTConnecting)
       .onMQTTDisconnected(onMQTTDisconnected)
       .onMQTTConnected(onMQTTConnected)
       .onMessage(onMessage)
       .build();
 }
 
-void loop()
-{
-  mqtt.loop();
+void loop() { mqtt.loop(); }
+
+void onWifiConnecting(const char *wifi_ssid) {
+  logger.log(String("Connecting to wifi: ") + wifi_ssid);
+  indicator.blink();
+}
+
+void onWifiConnected(const char *local_ip) {
+  logger.log(String("Connected to wifi with IP: ") + local_ip);
+  indicator.off();
+}
+
+void onMQTTConnecting() {
+  logger.log("Connecting to MQTT Broker");
+  indicator.blink();
+}
+
+void onMQTTDisconnected(int mqtt_error_code) {
+  logger.log(String("Device disconnected with error code: ") +
+             String(mqtt_error_code) + ". Reconnecting in 2seg...");
+  indicator.on();
+  delay(2000);
+}
+
+void onMQTTConnected(const char *broker_host, uint16_t broker_ip) {
+  logger.log(String("Connected to MQTT Broker: ") + broker_host + ":" +
+             String(broker_ip));
+  indicator.off();
+}
+
+void onMessage(char *t, uint8_t *m, unsigned int l) {
+  String topic = String(t);
+  String message;
+  for (int i = 0; i < l; i++) {
+    message += (char)m[i];
+  }
+
+  logger.log(String("Message received: ") + topic + ": " + message);
+
+  if (topic == String(MQTT_TOPIC)) {
+    if (message == String(MQTT_MSG_TO_OPEN_LOCKER)) {
+      lock.open();
+    } else if (message == String(MQTT_MSG_TO_CLOSE_LOCKER)) {
+      lock.close();
+    }
+  }
 }
