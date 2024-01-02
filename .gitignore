@@ -42,3 +42,6 @@ workbox*
 # dev
 .env
 
+# vscode
+/.vscode/*
+esp32/.vscode/*
