@@ -1,4 +1,5 @@
 import fs from "fs";
+import { print } from "./print.mjs";
 
 const configMQTT = {
   "mqtt-host": "192.168.0.122",
@@ -36,5 +37,6 @@ const configAppToDev = () => {
   fs.writeFileSync("./app/.env", mqttConfig.join("\n"));
 };
 
+print("Export config to ESP32 and APP");
 configESP32();
 configAppToDev();
