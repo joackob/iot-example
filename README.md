@@ -1,41 +1,62 @@
-# PWA con NextJS y Materia UI
+# Locker with NextJS and ESP32
 
-Este template fue creado para aprender sobre tecnologías frontend. Posee un ejemplo y en este archivo se explicara el paso a paso de como fue su proceso de desarrollo. Si te sirvió, considera dar una estrella para valorar el trabajo realizado
+Este template fue creado para aprender sobre tecnologías IoT combinando aplicaciones web desarrolladas con NextJS y placas ESP32.
 
 ## Entorno
 
-Asegurarse de tener instalado `git` . Esto se puede revisar muy fácilmente a trevés del comando `git --version` . En caso de no estar instalado, se puede hacer a través de los siguientes paso
+Asegurarse de tener instalado GIT . Esto se puede revisar muy fácilmente a trevés del comando `git --version` . En caso de no estar instalado, se puede hacer a través de los siguientes paso
 
 - En Linux, a través del comando `sudo apt install git`.
 - En Windows, a través de la pagina oficial https://git-scm.com/
 
-Procurar tener actualizado `node.js` a la versión `lts`. Si desea asegurarse, puede ejecutar el comando `npm doctor` que le indicara si cumple con los requisitos. Si el comando no se encuentra o `node.js` esta desactualizado, puede instalar `node.js --lts` mediante alguno de los siguientes pasos
+Procurar tener actualizado NodeJS a la versión `lts`. Si desea asegurarse, puede ejecutar el comando `npm doctor` que le indicara si cumple con los requisitos. Si el comando no se encuentra o indica estar desactualizado, puede instalar la versión `lts` mediante alguno de los siguientes pasos
 
-- En windows, desde la [pagina oficial](https://nodejs.org/en/), descargando y ejecutando la versión `lts`.
+- En Windows (con [scoop](https://scoop.sh/) ultra recomendado)
+  - Abrir una terminal y ejecutar el comando `scoop install nvm`.
+
+  - Inmediatamente después instalar NodeJS con el comando `nvm install lts`.
 
 - En Linux, a través de [nvm](https://github.com/nvm-sh/nvm)
 
-  - Abrir una terminal y ejecutar el comando que se encuentra en la sección [Install & update script](https://github.com/nvm-sh/nvm#install--update-script)
+  - Abrir una terminal y ejecutar el comando que se encuentra en la sección [Install & update script](https://github.com/nvm-sh/nvm#install--update-script) del repositorio oficial de NVM.
 
-  - Cerrar la terminal y abrir otra para ejecutar el siguiente comando para verificar la correcta instalación`nvm --version` . Una vez observada la versión, ejecutar el siguiente comando para instalar Node.js
+  - Cerrar la terminal y abrir otra para ejecutar el siguiente comando `nvm install --lts`.
 
-    ```bash
-    nvm install --lts
-    ```
+Es necesario contar con Aduino-CLI para ejecutar los correctamente diferentes scripts de este repo. Si ejecutando el comando `arduino-cli version` no se obtiene una respuesta satisfactoria, será necesaria la instalación de la aplicación.
+
+- En Linux con el comando `sudo apt install arduino-cli`.
+- En Windows con el comando `scoop install arduino-cli`
+
+## Breve introducción
+
+![diagrama-client-server-mqtt-esp](./assets/diagrama-client-server-mqtt-esp.png)
+
+En este repo convergen dos aplicaciones, una aplicación que llamaremos “cliente” que esta comprendida a su vez por una interfaz web y un servidor. Por otro lado, tenemos una aplicado que se ejecuta en una placa ESP32 (o cualquiera de sus variantes) encargada de accionar un servo motor (o cualquier actuador que desee utilizar, esta parte queda por su cuenta).
+
+Es necesario estar provisto por un broker `mqtt` ya sea tercerizado o auto administrado (recomendamos usar el popular broker `mqtt` conocido como [Mosquitto](https://mosquitto.org/download/) instalable en Windows con el comando `scoop install mosquitto`) y conocer los conceptos básicos que comprenden la comunicación mediante un broker `mqtt`.
+
+En caso de utilizar Mosquitto como broker, puede encontrar en el archivo `./mqtt/mosquitto.conf` la configuración básica para dar de alta el servicio con el comando `mosquitto -c /path/to/mqtt/mosquitto.conf`.
+
+## Configuración básica
+
+En el archivo `./utils/config.mjs` pueden encontrar los principales parámetros de configuración para la correcta comunicación entre la aplicación cliente y la placa ESP32 a través de un broker `mqtt`.
+
+- ⚙️`mqtt-host`: hosting del broker `mqtt` utilizado.
+- ⚙️`mqtt-port`: puerto del broker `mqtt` utilizado.
+- ⚙️`mqtt-topic`: topic al cual se suscriben y publican tanto la placa como la aplicación cliente.
+- ⚙️`mqtt-msg-to-close`: palabra clave para ordenar a la placa el “cierre ” del cerrojo.
+- ⚙️`mqtt-msg-to-open`: palabra clave para ordenar a la placa la “apertura” del cerrojo.
+
+En el archivo `./esp32/wifi_config.h` se encuentran definidas las constantes que serán usadas por la placa ESP32 para conectarse a una red wi-fi.
 
 ## Instalación y ejecución
 
-- 🛠Para instalar las dependencias ejecutar el siguiente comando `npm install`
-- ⚒Para ejecutar el modo playground o repl, ejecutar el siguiente comando `npm run dev`
-- 🔧Para traducir el código en `/src` a `JavaScript` , usar el comando `npm run build`
-- 🔑Para ejecutar el código con `Node.js`, usar el comando `npm run start`
-- 🧪Para ejecutar los test con jest, usar el comando `npm run test`
-
-## Variables de entorno
-
-- `NODE_ENV`: Variable que identifica el entorno en que se ejecuta el proyecto. "development": en desarrollo, "production": en producción, "test": en testing.
-
-Se puede usar el archivo `.env` para configurar estas variables de entorno en testing y desarrollo. Solo se debe ejecutar el comando `cp .env.example .env`.
+- 🛠Para instalar las dependencias ejecutar el siguiente comando `npm install`.
+- ⚒Para construir todo el proyecto, ejecutar el siguiente comando `npm run build`.
+- ⚒Para desplegar la configuración entre las distintas partes del proyecto, ejecutar el siguiente comando `npm run config` . Esta configuración es depositada en los archivos `./esp32/mqtt_config.h` y `./app/.env` para que cada de las partes puedan adoptarlas adecuadamente.
+- ⚒Para desplegar aplicación cliente, ejecutar el siguiente comando `npm run deploy:app`.
+- ⚒Para subir el código compilado a una placa ESP32, ejecutar el siguiente comando `npm run deploy:esp32`.
+- 🧪Para ejecutar los test con Jest, usar el comando `npm run test`.
 
 ## Características
 
@@ -43,12 +64,8 @@ Se puede usar el archivo `.env` para configurar estas variables de entorno en te
 - [NextJS](https://nextjs.org/)
 - [Jest](https://jestjs.io/)
 - [Testing Library](https://testing-library.com/)
-- [Next-pwa](https://www.npmjs.com/package/next-pwa)
-
-## Artículos y ejemplos tomados en cuenta para el desarrollo del template
-
-- https://www.npmjs.com/package/next-pwa
-- https://nextjs.org/docs/testing
+- [Next-PWA](https://www.npmjs.com/package/next-pwa)
+- [Arduino-CLI](https://arduino.github.io/arduino-cli/0.35/)
 
 ## Pasos para crear este template
 
