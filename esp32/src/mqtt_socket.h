@@ -1,7 +1,7 @@
-#ifndef MQTT_H
-#define MQTT_H
+#ifndef MQTT_SOCKET_H
+#define MQTT_SOCKET_H
 
-#include <PubSubClient.h> //Nick O'Leary
+#include <PubSubClient.h>  //Nick O'Leary
 #include <WiFi.h>
 #include <stdint.h>
 
@@ -14,23 +14,23 @@ typedef void (*OnMQTTConnectingCallback)();
 typedef void (*OnMessageCallback)(char *topic, uint8_t *message,
                                   unsigned int long_message);
 
-class MQTT {
-public:
-  MQTT();
-  MQTT(const MQTT &other);
-  MQTT(MQTT &&other);
-  ~MQTT();
-  MQTT &operator=(const MQTT &other);
-  MQTT &onWifiConnecting(OnWifiConnectingCallback callback);
-  MQTT &onWifiConnected(OnWifiConnectedCallback callback);
-  MQTT &onMQTTDisconnected(OnMQTTDisconnectedCallback callback);
-  MQTT &onMQTTConnected(OnMQTTConnectedCallback callback);
-  MQTT &onMQTTConnecting(OnMQTTConnectingCallback callback);
-  MQTT &onMessage(OnMessageCallback callback);
-  MQTT &build();
+class MQTTSocket {
+ public:
+  MQTTSocket();
+  MQTTSocket(const MQTTSocket &other);
+  MQTTSocket(MQTTSocket &&other);
+  ~MQTTSocket();
+  MQTTSocket &operator=(const MQTTSocket &other);
+  MQTTSocket &onWifiConnecting(OnWifiConnectingCallback callback);
+  MQTTSocket &onWifiConnected(OnWifiConnectedCallback callback);
+  MQTTSocket &onMQTTDisconnected(OnMQTTDisconnectedCallback callback);
+  MQTTSocket &onMQTTConnected(OnMQTTConnectedCallback callback);
+  MQTTSocket &onMQTTConnecting(OnMQTTConnectingCallback callback);
+  MQTTSocket &onMessage(OnMessageCallback callback);
+  MQTTSocket &build();
   void loop();
 
-private:
+ private:
   WiFiClient wifi;
   PubSubClient socket;
   OnWifiConnectingCallback onWifiConnectingCallback;
@@ -41,4 +41,4 @@ private:
   OnMessageCallback onMessageCallback;
 };
 
-#endif // !MQTT_H
+#endif

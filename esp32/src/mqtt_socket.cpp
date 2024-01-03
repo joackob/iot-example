@@ -1,11 +1,11 @@
-#include "mqtt.h"
+#include "mqtt_socket.h"
 
 #include "../mqtt_config.h"
 #include "../wifi_config.h"
 
 #define MQTT_CLIENT_ID "ESP32"
 
-MQTT::MQTT() {
+MQTTSocket::MQTTSocket() {
   this->socket.setClient(this->wifi);
   this->onWifiConnectingCallback = nullptr;
   this->onWifiConnectedCallback = nullptr;
@@ -14,49 +14,52 @@ MQTT::MQTT() {
   this->onMQTTConnectingCallback = nullptr;
 }
 
-MQTT::MQTT(const MQTT &other) : wifi(other.wifi), socket(other.socket) {}
+MQTTSocket::MQTTSocket(const MQTTSocket &other)
+    : wifi(other.wifi), socket(other.socket) {}
 
-MQTT::MQTT(MQTT &&other) : wifi(other.wifi), socket(other.socket) {}
+MQTTSocket::MQTTSocket(MQTTSocket &&other)
+    : wifi(other.wifi), socket(other.socket) {}
 
-MQTT::~MQTT(){};
+MQTTSocket::~MQTTSocket(){};
 
-MQTT &MQTT::operator=(const MQTT &other) {
+MQTTSocket &MQTTSocket::operator=(const MQTTSocket &other) {
   this->wifi = other.wifi;
   this->socket = other.socket;
   return *this;
 };
 
-MQTT &MQTT::onWifiConnecting(OnWifiConnectingCallback callback) {
+MQTTSocket &MQTTSocket::onWifiConnecting(OnWifiConnectingCallback callback) {
   this->onWifiConnectingCallback = callback;
   return *this;
 }
 
-MQTT &MQTT::onWifiConnected(OnWifiConnectedCallback callback) {
+MQTTSocket &MQTTSocket::onWifiConnected(OnWifiConnectedCallback callback) {
   this->onWifiConnectedCallback = callback;
   return *this;
 }
 
-MQTT &MQTT::onMQTTDisconnected(OnMQTTDisconnectedCallback callback) {
+MQTTSocket &MQTTSocket::onMQTTDisconnected(
+    OnMQTTDisconnectedCallback callback) {
   this->onMQTTDisconnectedCallback = callback;
   return *this;
 }
 
-MQTT &MQTT::onMQTTConnected(OnMQTTConnectedCallback callback) {
+MQTTSocket &MQTTSocket::onMQTTConnected(OnMQTTConnectedCallback callback) {
   this->onMQTTConnectedCallback = callback;
   return *this;
 }
 
-MQTT &MQTT::onMQTTConnecting(OnMQTTConnectingCallback callback) {
+MQTTSocket &MQTTSocket::onMQTTConnecting(OnMQTTConnectingCallback callback) {
   this->onMQTTConnectingCallback = callback;
   return *this;
 }
 
-MQTT &MQTT::onMessage(OnMessageCallback callback) {
+MQTTSocket &MQTTSocket::onMessage(OnMessageCallback callback) {
   this->onMessageCallback = callback;
   return *this;
 }
 
-MQTT &MQTT::build() {
+MQTTSocket &MQTTSocket::build() {
   WiFi.begin(WIFI_SSID, WIFI_PASS);
   while (WiFi.status() != WL_CONNECTED) {
     this->onWifiConnectingCallback(WIFI_SSID);
@@ -67,7 +70,7 @@ MQTT &MQTT::build() {
   return *this;
 };
 
-void MQTT::loop() {
+void MQTTSocket::loop() {
   while (!this->socket.connected()) {
     if (this->socket.connect(MQTT_CLIENT_ID)) {
       this->socket.subscribe(MQTT_TOPIC);

@@ -1,7 +1,7 @@
 #ifndef WIFI_CONFIG_H
 #define WIFI_CONFIG_H
 
-#define WIFI_SSID "wifi-ssid"
-#define WIFI_PASS "wifi-pass"
+#define WIFI_SSID "ssid"
+#define WIFI_PASS "pass"
 
-#endif  // !WIFI_CONFIG_H
+#endif

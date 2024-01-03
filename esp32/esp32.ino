@@ -5,9 +5,9 @@
 #include "./src/indicator.h"
 #include "./src/lock.h"
 #include "./src/logger.h"
-#include "./src/mqtt.h"
+#include "./src/mqtt_socket.h"
 
-MQTT mqtt;
+MQTTSocket socket;
 LedIndicator indicator;
 Lock lock;
 Logger logger;
@@ -17,7 +17,7 @@ void setup() {
   lock.begin();
   indicator.begin();
 
-  mqtt.onWifiConnecting(onWifiConnecting)
+  socket.onWifiConnecting(onWifiConnecting)
       .onWifiConnected(onWifiConnected)
       .onMQTTConnecting(onMQTTConnecting)
       .onMQTTDisconnected(onMQTTDisconnected)
@@ -26,7 +26,7 @@ void setup() {
       .build();
 }
 
-void loop() { mqtt.loop(); }
+void loop() { socket.loop(); }
 
 void onWifiConnecting(const char *wifi_ssid) {
   logger.log(String("Connecting to wifi: ") + wifi_ssid);
