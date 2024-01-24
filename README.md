@@ -1,6 +1,6 @@
 # Locker with NextJS and ESP32
 
-Este template fue creado para aprender sobre tecnologías IoT combinando aplicaciones web desarrolladas con NextJS y placas ESP32.
+Este proyecto fue creado para aprender sobre tecnologías IoT combinando aplicaciones web desarrolladas con NextJS y placas ESP32. Puede encontrar más info en las notas del siguiente [artículo](https://medium.com/@joackob/sistematizando-desarrollo-construcción-despliegue-con-arduino-cli-y-nodejs-ca7e2a385931)
 
 ## Entorno
 
