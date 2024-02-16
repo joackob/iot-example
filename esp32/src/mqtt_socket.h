@@ -12,7 +12,7 @@ typedef void (*OnMQTTConnectedCallback)(const char *broker_host,
                                         uint16_t broker_port);
 typedef void (*OnMQTTConnectingCallback)();
 typedef void (*OnMessageCallback)(char *topic, uint8_t *message,
-                                  unsigned int long_message);
+                                  unsigned int length_message);
 
 class MQTTSocket {
  public:
