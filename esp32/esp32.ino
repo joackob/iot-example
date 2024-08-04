@@ -17,46 +17,47 @@ void setup() {
   lock.begin();
   indicator.begin();
 
-  socket.onWifiConnecting(onWifiConnecting)
-      .onWifiConnected(onWifiConnected)
-      .onMQTTConnecting(onMQTTConnecting)
-      .onMQTTDisconnected(onMQTTDisconnected)
-      .onMQTTConnected(onMQTTConnected)
-      .onMessage(onMessage)
+  socket.onWifiConnecting(logSSIDAndSignalStatusConnectingWifi)
+      .onWifiConnected(logIPAndSignalStatusConnectedWifi)
+      .onMQTTConnecting(logAndSignalStatusConnectingBroker)
+      .onMQTTDisconnected(logAndSignalStatusDisconnectedBroker)
+      .onMQTTConnected(logAndSignalStatusConnectedBroker)
+      .onMessage(attendToRequest)
       .build();
 }
 
 void loop() { socket.loop(); }
 
-void onWifiConnecting(const char *wifi_ssid) {
+void logSSIDAndSignalStatusConnectingWifi(const char *wifi_ssid) {
   logger.log(String("Connecting to wifi: ") + wifi_ssid);
   indicator.blink();
 }
 
-void onWifiConnected(const char *local_ip) {
+void logIPAndSignalStatusConnectedWifi(const char *local_ip) {
   logger.log(String("Connected to wifi with IP: ") + local_ip);
   indicator.off();
 }
 
-void onMQTTConnecting() {
+void logAndSignalStatusConnectingBroker() {
   logger.log("Connecting to MQTT Broker");
   indicator.blink();
 }
 
-void onMQTTDisconnected(int mqtt_error_code) {
+void logAndSignalStatusDisconnectedBroker(int mqtt_error_code) {
   logger.log(String("Device disconnected with error code: ") +
              String(mqtt_error_code) + ". Reconnecting in 2seg...");
   indicator.on();
   delay(2000);
 }
 
-void onMQTTConnected(const char *broker_host, uint16_t broker_ip) {
+void logAndSignalStatusConnectedBroker(const char *broker_host,
+                                       uint16_t broker_ip) {
   logger.log(String("Connected to MQTT Broker: ") + broker_host + ":" +
              String(broker_ip));
   indicator.off();
 }
 
-void onMessage(char *t, uint8_t *m, unsigned int l) {
+void attendToRequest(char *t, uint8_t *m, unsigned int l) {
   String topic = String(t);
   String message;
   for (int i = 0; i < l; i++) {
